@@ -19,9 +19,27 @@ const displayCountries = countries => {
        const countryInfo = `
        <h3 class = 'country-name'>${ country.name.common}</h3>
        <p>${country.capital}</p>
+       <button onclick = "countryDetails('${country.name.common}')"> Details </button>
        `
          div.innerHTML = countryInfo;
          countriesDiv.appendChild(div)
         
+    }
+}
+
+const countryDetails = name => {
+    const url = `https://restcountries.com/v3.1/name/${name}`
+    fetch(url)
+    .then(res => res.json())
+    .then(data => renderCountryInfo(data[0]))
+
+    const renderCountryInfo = country => {
+        const countryDetails = document.getElementById('countryDetails');
+        countryDetails.innerHTML = `
+        <h3> ${country.name.common}</h3>
+        <p> ${country.population}</p>
+        <p>${country.area}</p>
+        <img src= "${country.flags.png}">
+        `
     }
 }
